@@ -1,0 +1,16 @@
+textarea {
+    min-height: 400px;
+}
+.read{
+    background-color: grey;
+    padding: 4px;
+    border-radius: 4px;
+}
+.date, .sender{
+    display: inline-block;
+    position: relative;
+    line-height: 4px;
+}
+.date{
+    left: 50%;
+}
