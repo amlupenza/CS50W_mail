@@ -5,6 +5,7 @@ textarea {
     background-color: grey;
     padding: 4px;
     border-radius: 4px;
+    margin-bottom: 4px;
 }
 .date, .sender{
     display: inline-block;
@@ -13,4 +14,8 @@ textarea {
 }
 .date{
     left: 50%;
+}
+.email{
+    border-bottom: solid 1px black;
+    margin-bottom: 4px;
 }
