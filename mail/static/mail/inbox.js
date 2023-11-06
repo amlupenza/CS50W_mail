@@ -89,37 +89,50 @@ function load_mailbox(mailbox) {
       // loop through emails
     for (let i = 0; i < emails.length; i++ ){
       // create a div for each email
-      const element = document.createElement('div');
-      // add an event listerner to each element(div)
-      element.addEventListener('click', function(){
-        console.log("element has been clicked")
-        // change email to read
-        console.log(`${emails[i].id}`)
-        fetch(`emails/${emails[i].id}`, {
-          method: 'PUT',
-          body: JSON.stringify({
-            read: true,
+      const email = document.createElement('div');
+      email.className = 'email';
+      email.addEventListener('click', function(event){
+        let element = event.target;
+        // email is clicked
+        if (!element.classList.contains('archive')){
+          var element_id = emails[i].id
+          console.log(`Email of id ${element_id} is clicked`)
+            // change email to read
+          fetch(`emails/${element_id}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+              read: true,
+            })
           })
-        })
-        .then(response => {
-          if (response.status === 204){
-           view_email(emails[i].id);
-           console.log(emails[i].id);
-          }
-        })
+          .then(response => {
+            if (response.status === 204){
+              view_email(element_id);
+              console.log(element_id);
+            }
+          })
+        }
+        
       })
-       // add class to the clicked email
+      email.id = `${emails[i].id}`;
+      email.innerHTML = `<h6 class="sender">${emails[i].sender}</h6><p class="date">${emails[i].timestamp}</p><p>${emails[i].subject}</p>`;
+      console.log(`recipient is ${emails[i].recipients}`)
+      console.log(`sender is ${emails[i].sender}`)
+      if(!emails[i].recipients.includes(emails[i].sender)){
+        archive_btn = document.createElement('button');
+        archive_btn.classList.add('btn', 'archive');
+        archive_btn.dataset.email = `${emails[i].id}`;
+        email.append(archive_btn);
+      }
+      document.querySelector('#emails-view').append(email); 
+      console.log("emails has been loaded");
+      // add class to the clicked email
       if( emails[i].read === true){
-        element.className = 'read';
-        // debug with console.log
-        console.log("this element's class has been changed");
+        email.classList.add('read');
+        
      }
-      element.innerHTML = `<h6 class="sender">${emails[i].sender}</h6><p class="date">${emails[i].timestamp}</p><p>${emails[i].subject}</p><button data-email=${emails[i].id} class='btn archive'></button>`;
-      document.querySelector('#emails-view').append(element);
-      element.classList.add('email');
-    console.log(`is archived ${emails[i].archived}`);
-    console.log("emails has been loaded");
   }
+ 
+  // if archive button is clicked
   document.querySelectorAll('.archive').forEach(button =>{
     let email_Id = parseInt(button.dataset.email);
     button.onclick = archive;
@@ -162,6 +175,7 @@ function view_email(email_id){
 // archive function
 function archive(event){
   let button = event.target;
+  button.parentElement.style.animationPlayState = 'running';
   let email_id = button.dataset.email;
   fetch(`emails/${email_id}`)
   .then(response => response.json())
@@ -181,7 +195,11 @@ function archive(event){
         })
       })
     }
-    button.parentElement.remove();
+    let element = button.parentElement;
+    element.addEventListener('animationend', () => {
+      button.parentElement.remove();
+    })
+    
     
   })
   
