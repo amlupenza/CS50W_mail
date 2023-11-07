@@ -117,7 +117,7 @@ function load_mailbox(mailbox) {
       email.innerHTML = `<h6 class="sender">${emails[i].sender}</h6><p class="date">${emails[i].timestamp}</p><p>${emails[i].subject}</p>`;
       console.log(`recipient is ${emails[i].recipients}`)
       console.log(`sender is ${emails[i].sender}`)
-      if(!emails[i].recipients.includes(emails[i].sender)){
+      if(mailbox != 'sent'){
         archive_btn = document.createElement('button');
         archive_btn.classList.add('btn', 'archive');
         archive_btn.dataset.email = `${emails[i].id}`;
