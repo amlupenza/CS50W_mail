@@ -173,6 +173,8 @@ function view_email(email_id){
     //view an email
     const element = document.createElement('div');
     element.innerHTML = `<h6>From:${email.sender}</6><h6>Subject:${email.subject}</6><p>${email.timestamp}<hr></p><p>${email.body}</p><button class= 'btn reply' data-email=${email.id}>Reply</button>`;
+    // add line breaks where there is a new line.
+    element.innerHTML = element.innerHTML.replace(/\n/g, '<br>');
     document.querySelector("#email-view").append(element);
     // event listener for replay button
     document.querySelector('.reply').addEventListener('click', () =>{
@@ -226,7 +228,7 @@ function reply_email(email_id){
      // populate the input fields
   document.querySelector('#compose-recipients').value = `${email.sender}`;
   document.querySelector('#compose-subject').value = `RE: ${email.subject}`;
-  document.querySelector('#compose-body').value = `\n\n\n\n\n\n..................................................................\nOn ${email.timestamp} ${email.sender} wrote: ${email.body}`;
+  document.querySelector('#compose-body').innerHTML = `\n\n\n\n\n\n....................................................\n On ${email.timestamp} ${email.sender} wrote: ${email.body}`;
   // on submiting form
   document.querySelector('#compose-form').onsubmit = function(event){
     event.preventDefault()
