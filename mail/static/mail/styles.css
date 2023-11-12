@@ -54,11 +54,3 @@ textarea {
     animation-duration: 2s;
     animation-play-state: paused;
 }
-textarea{
-    height: 30%;
-    margin-bottom: 4px;
-}
-.btn{
-    margin-bottom: 4px;
-
-}
