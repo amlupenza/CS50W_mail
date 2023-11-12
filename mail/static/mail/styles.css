@@ -62,3 +62,20 @@ textarea{
     margin-bottom: 4px;
 
 }
+.message{
+    padding: 4px;
+    margin-bottom: 4px;
+    animation-name: remove;
+    animation-delay: 2s;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-play-state: paused;
+}
+.success{
+    background-color: green;
+    color: blak;
+}
+.error{
+    background-color: red;
+    color: white;
+}

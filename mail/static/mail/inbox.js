@@ -32,12 +32,9 @@ document.addEventListener('DOMContentLoaded', function() {
     compose_email();
   });
   
-  
-
   // By default, load the inbox
   load_mailbox('inbox');
 })
-let current_mailbox = 'inbox';
 
 
 function compose_email() {
@@ -62,16 +59,45 @@ function compose_email() {
         body: document.querySelector('#compose-body').value
       })
     }) 
-    .then(response => response.json())
+    .then(response =>{
+      // create an element to show success or error message
+      let message = document.querySelector('.message');
+      if(response.status === 400){
+        message.classList.add('error');
+        console.log('message class added error');
+    } else if(response.status === 201){
+
+        message.classList.add('success');
+        //debug
+        console.log('message added class success')
+    }
+      return response.json();
+  
+    }) 
     .then(result => {
+      let msg = document.querySelector('.message');
+      console.log(result.message);
+      if(result.message){
+        msg.innerHTML = result.message;
+        console.log('success message shown')
+      } else if(result.error){
+        msg.innerHTML = result.error;
+      }
+       // load_mailbox function
       load_mailbox('inbox');
-      console.log(result);
     })
   }
-}
+  
 
 
-function load_mailbox(mailbox) {
+function load_mailbox(mailbox){
+  let message = document.querySelector('.message');
+  message.animationPlayState = 'running';
+  console.log('success message played')
+  message.addEventListener('animationend', ()=>{
+    message.remove();
+    console.log('success message has been removed')
+  })
   current_mailbox = mailbox;
   document.querySelector('#emails-view').innerHTML = '';
   // Show the mailbox and hide other views
@@ -85,7 +111,6 @@ function load_mailbox(mailbox) {
   fetch(`emails/${mailbox}`)
   .then(response => response.json())
   .then(emails => {
-    console.log(emails)
       // loop through emails
     for (let i = 0; i < emails.length; i++ ){
       // create a div for each email
@@ -141,23 +166,21 @@ function load_mailbox(mailbox) {
   document.querySelectorAll('.archive').forEach(button =>{
     let email_Id = parseInt(button.dataset.email);
     button.onclick = archive;
-    console.log(`Email id is ${email_Id} testing archive button`);
     console.log(button.dataset.emailId);
     fetch(`emails/${email_Id}`)
     .then(response => response.json())
     .then(email => {
       if(email.archived == false){
         button.innerHTML = "Archive";
-        console.log(`this email is archived ${email.archived}`);
       }else{
         button.innerHTML = "Unarchive";
         console.log(`this email is archived ${email.archived}`);
       }
     })
   })
-  })
-
+})
 }
+
 // view email function
 function view_email(email_id){
   document.querySelector('#email-view').innerHTML = '';
@@ -247,5 +270,6 @@ function reply_email(email_id){
       console.log(result);
     })
   }
-  })
+})
+}
 }
