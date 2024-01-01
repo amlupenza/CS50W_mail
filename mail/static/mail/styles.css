@@ -1,8 +1,22 @@
+*{
+    color: rgb(244, 40, 53);
+}
+body{
+    background-image: url('page_background_4.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    padding-top: 8px;
+}
+.container h2, #emails-view h3{
+    color: rgb(227, 214, 214);
+}
 textarea {
     min-height: 400px;
 }
 .read{
-    background-color: grey;
+    background-color: rgb(202, 196, 196);
 }
 .date, .sender{
     display: inline-block;
@@ -10,7 +24,19 @@ textarea {
     line-height: 4px;
 }
 .date{
-    left: 50%;
+    right: 0;
+}
+#email-view{
+    color: white;
+    
+}
+
+#compose-view{
+    
+    color: white;
+}
+hr{
+    border: solid 1px white;
 }
 
 @keyframes remove{
@@ -37,9 +63,19 @@ textarea {
       
     }
 }
+.message{
+    background-color: rgb(98, 0, 128);
+    text-align: center;
+    padding: 4px;
+    color: yellow;
+    animation-name: remove;
+    animation-duration: 3s;
+    animation-fill-mode: forwards;
+    animation-play-state: paused;
+}
 .email{
     box-sizing: border-box;
-    border-bottom: solid 1px black;
+    border: solid 1px blue;
     margin-bottom: 4px;
     padding: 4px;
     border-radius: 4px;
@@ -47,6 +83,11 @@ textarea {
     animation-duration: 2s;
     animation-fill-mode: forwards;
     animation-play-state: paused;
+    transition: 0.5s;
+    color: red;
+}
+.email:hover{
+    transform: translateY(2px);
 }
 .email h6{
     animation-name: remove;
@@ -59,6 +100,13 @@ textarea{
     margin-bottom: 4px;
 }
 .btn{
-    margin-bottom: 4px;
-
+    margin: 4px;
 }
+.archive, .reply{
+    background-color: rgb(3, 3, 92);
+    color: red;
+}
+.archive:hover, .reply:hover{
+    color:white;
+}
+
